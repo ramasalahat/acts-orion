@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - master
+      - 'releases/**'
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
@@ -61,13 +62,9 @@ jobs:
       matrix:
         os:
           - centos7
-          - slc6
         lcg:
           - 95apython3
           - 96
-        exclude:
-          - os: slc6
-            lcg: 96
     env:
       SETUP: /opt/lcg_view/setup.sh
     steps:

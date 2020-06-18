@@ -59,7 +59,8 @@ auto Acts::AdaptiveMultiVertexFinder<vfitter_t, sfinder_t>::find(
 
     ACTS_DEBUG("Position of current vertex candidate after seeding: "
                << vtxCandidate.fullPosition());
-    if (vtxCandidate.position().z() == 0.) {
+    if (vtxCandidate.position().z() ==
+        vertexingOptions.vertexConstraint.position().z()) {
       ACTS_DEBUG(
           "No seed found anymore. Break and stop primary vertex finding.");
       allVertices.pop_back();
@@ -526,9 +527,9 @@ auto Acts::AdaptiveMultiVertexFinder<vfitter_t, sfinder_t>::isMergedVertex(
     const double otherZPos = otherPos[eZ];
     const double otherZCov = otherCov(eZ, eZ);
 
-    const auto deltaPos = otherPos - candidatePos;
-    const auto deltaZPos = otherZPos - candidateZPos;
-    const auto sumCovZ = otherZCov + candidateZCov;
+    const SpacePointVector deltaPos = otherPos - candidatePos;
+    const double deltaZPos = otherZPos - candidateZPos;
+    const double sumCovZ = otherZCov + candidateZCov;
 
     double significance;
     if (not m_cfg.do3dSplitting) {
@@ -540,7 +541,7 @@ auto Acts::AdaptiveMultiVertexFinder<vfitter_t, sfinder_t>::isMergedVertex(
       }
     } else {
       // Use full 3d information for significance
-      auto sumCov = candidateCov + otherCov;
+      SpacePointSymMatrix sumCov = candidateCov + otherCov;
       significance =
           std::sqrt(deltaPos.dot((sumCov.inverse().eval()) * deltaPos));
     }
