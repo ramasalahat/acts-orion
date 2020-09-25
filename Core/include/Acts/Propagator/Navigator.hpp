@@ -731,17 +731,19 @@ class Navigator {
             }
             protoNavSurfacesIter++;
           }
-          ACTS_VERBOSE(volInfo(state)
-                       << "post loop"
-                       << "ID : " << protoNavSurfacesIter->object->geometryId()
-                       << "length : "
-                       << protoNavSurfacesIter->intersection.pathLength
-                       << "initial : " << initialPathLength << "diff : "
-                       << protoNavSurfacesIter->intersection.pathLength -
-                              initialPathLength
-                       << "same : "
-                       << (fabs(protoNavSurfacesIter->intersection.pathLength -
-                                initialPathLength) < s_epsilon));
+          if (protoNavSurfacesIter != protoNavSurfaces.end()) {
+            ACTS_VERBOSE(
+                volInfo(state)
+                << "post loop"
+                << "ID : " << protoNavSurfacesIter->object->geometryId()
+                << "length : " << protoNavSurfacesIter->intersection.pathLength
+                << "initial : " << initialPathLength << "diff : "
+                << protoNavSurfacesIter->intersection.pathLength -
+                       initialPathLength
+                << "same : "
+                << (fabs(protoNavSurfacesIter->intersection.pathLength -
+                         initialPathLength) < s_epsilon));
+          }
           // Check: are we on the first surface?
           if (state.navigation.currentSurface == nullptr || !sameSurface) {
             // we are not, go on
