@@ -737,7 +737,10 @@ class Navigator {
                   state.navigation.navSurfaceIter->object) {
                 sameSurface = true;
               }
+              state.navigation.navSurfaceIter++;
             }
+            state.navigation.navSurfaceIter =
+                state.navigation.navSurfaces.begin();
             if (!sameSurface) {
               // we are not, go on
               state.navigation.navLayers = {};
