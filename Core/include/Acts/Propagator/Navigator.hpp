@@ -708,18 +708,6 @@ class Navigator {
         if (!protoNavSurfaces.empty()) {
           // did we find any surfaces?
           ACTS_VERBOSE(volInfo(state) << "epsilon : " << s_epsilon);
-          ACTS_VERBOSE(
-              volInfo(state)
-              << "length : "
-              << fabs(protoNavSurfaces.front().intersection.pathLength));
-          ACTS_VERBOSE(volInfo(state)
-                       << "surface ? "
-                       << (state.navigation.currentSurface == nullptr));
-          ACTS_VERBOSE(
-              volInfo(state)
-              << "length > epsilon ? "
-              << (fabs(protoNavSurfaces.front().intersection.pathLength) >
-                  s_epsilon));
           auto protoNavSurfacesIter = protoNavSurfaces.begin();
           bool sameSurface = false;
           double initialPathLength =
@@ -727,12 +715,33 @@ class Navigator {
           while (protoNavSurfacesIter != protoNavSurfaces.end() &&
                  fabs(protoNavSurfacesIter->intersection.pathLength -
                       initialPathLength) < s_epsilon) {
+            ACTS_VERBOSE(
+                volInfo(state)
+                << "ID : " << protoNavSurfacesIter->object->geometryId()
+                << "length : " << protoNavSurfacesIter->intersection.pathLength
+                << "initial : " << initialPathLength << "diff : "
+                << protoNavSurfacesIter->intersection.pathLength -
+                       initialPathLength
+                << "same : "
+                << (fabs(protoNavSurfacesIter->intersection.pathLength -
+                         initialPathLength) < s_epsilon));
             if (state.navigation.currentSurface ==
                 protoNavSurfacesIter->object) {
               sameSurface = true;
             }
             protoNavSurfacesIter++;
           }
+          ACTS_VERBOSE(volInfo(state)
+                       << "post loop"
+                       << "ID : " << protoNavSurfacesIter->object->geometryId()
+                       << "length : "
+                       << protoNavSurfacesIter->intersection.pathLength
+                       << "initial : " << initialPathLength << "diff : "
+                       << protoNavSurfacesIter->intersection.pathLength -
+                              initialPathLength
+                       << "same : "
+                       << (fabs(protoNavSurfacesIter->intersection.pathLength -
+                                initialPathLength) < s_epsilon));
           // Check: are we on the first surface?
           if (state.navigation.currentSurface == nullptr || !sameSurface) {
             // we are not, go on
