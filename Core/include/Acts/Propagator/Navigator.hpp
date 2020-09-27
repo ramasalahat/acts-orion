@@ -708,44 +708,9 @@ class Navigator {
         if (!protoNavSurfaces.empty()) {
           // did we find any surfaces?
           ACTS_VERBOSE(volInfo(state) << "epsilon : " << s_epsilon);
-          auto protoNavSurfacesIter = protoNavSurfaces.begin();
-          bool sameSurface = false;
-          double initialPathLength =
-              protoNavSurfacesIter->intersection.pathLength;
-          while (protoNavSurfacesIter != protoNavSurfaces.end() &&
-                 fabs(protoNavSurfacesIter->intersection.pathLength -
-                      initialPathLength) < s_epsilon) {
-            ACTS_VERBOSE(
-                volInfo(state)
-                << "ID : " << protoNavSurfacesIter->object->geometryId()
-                << "length : " << protoNavSurfacesIter->intersection.pathLength
-                << "initial : " << initialPathLength << "diff : "
-                << protoNavSurfacesIter->intersection.pathLength -
-                       initialPathLength
-                << "same : "
-                << (fabs(protoNavSurfacesIter->intersection.pathLength -
-                         initialPathLength) < s_epsilon));
-            if (state.navigation.currentSurface ==
-                protoNavSurfacesIter->object) {
-              sameSurface = true;
-            }
-            protoNavSurfacesIter++;
-          }
-          if (protoNavSurfacesIter != protoNavSurfaces.end()) {
-            ACTS_VERBOSE(
-                volInfo(state)
-                << "post loop"
-                << "ID : " << protoNavSurfacesIter->object->geometryId()
-                << "length : " << protoNavSurfacesIter->intersection.pathLength
-                << "initial : " << initialPathLength << "diff : "
-                << protoNavSurfacesIter->intersection.pathLength -
-                       initialPathLength
-                << "same : "
-                << (fabs(protoNavSurfacesIter->intersection.pathLength -
-                         initialPathLength) < s_epsilon));
-          }
           // Check: are we on the first surface?
-          if (state.navigation.currentSurface == nullptr || !sameSurface) {
+          if (state.navigation.currentSurface == nullptr ||
+              protoNavSurfaces.front().intersection.pathLength > 1_um) {
             // we are not, go on
             state.navigation.navSurfaces = std::move(protoNavSurfaces);
             state.navigation.navSurfaceIter =
