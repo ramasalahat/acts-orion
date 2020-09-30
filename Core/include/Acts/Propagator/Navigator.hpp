@@ -709,7 +709,7 @@ class Navigator {
         // remove the curent surface from the navigation
         for (auto navIt = protoNavSurfaces.begin();
              navIt != protoNavSurfaces.end(); ++navIt) {
-          if (navIt->intersection.pathLength < 1_um) {
+          if (fabs(navIt->intersection.pathLength) < 1_um) {
             navIt = protoNavSurfaces.erase(navIt);
           }
         }
