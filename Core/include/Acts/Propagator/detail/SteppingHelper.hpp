@@ -48,6 +48,14 @@ Acts::Intersection3D::Status updateSingleSurfaceStatus(
     auto checkIntersection = [&](const Intersection3D& intersection) -> bool {
       double cLimit = intersection.pathLength;
       bool accept = (cLimit > oLimit and cLimit * cLimit < pLimit * pLimit);
+      if (!accept) {
+        std::cout << "pLimit : " << pLimit << " oLimit : " << oLimit
+                  << " cLimit : " << cLimit << std::endl;
+        std::cout << "cLimit > oLimit : " << (cLimit > oLimit) << std::endl;
+        std::cout << "cLimit * cLimit < pLimit * pLimit : "
+                  << (cLimit * cLimit < pLimit * pLimit) << std::endl;
+        std::cout << "accept : " << (accept) << std::endl;
+      }
       if (accept) {
         stepper.setStepSize(state, state.navDir * cLimit);
       }
