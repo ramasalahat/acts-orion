@@ -60,6 +60,13 @@ struct PathLimitReached {
     // Check if the maximum allowed step size has to be updated
     double distance = state.stepping.navDir * std::abs(internalLimit) -
                       state.stepping.pathAccumulated;
+
+    std::cout << "###updating limit###" << std::endl;
+    std::cout << "internal limit : " << std::abs(internalLimit) << std::endl;
+    std::cout << "pathAccumulated : " << state.stepping.pathAccumulated
+              << std::endl;
+    std::cout << "distance : " << distance << std::endl;
+
     double tolerance = state.options.targetTolerance;
     state.stepping.stepSize.update(distance, ConstrainedStep::aborter);
     bool limitReached = (distance * distance < tolerance * tolerance);
