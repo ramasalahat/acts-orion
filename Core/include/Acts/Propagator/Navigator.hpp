@@ -705,35 +705,31 @@ class Navigator {
             state.navigation.currentVolume->compatibleSurfacesFromHierarchy(
                 state.geoContext, stepper.position(state.stepping),
                 stepper.direction(state.stepping), opening_angle, navOpts);
-
-        // remove the curent surface from the navigation
-        for (auto navIt = protoNavSurfaces.begin();
-             navIt != protoNavSurfaces.end(); ++navIt) {
-          if (fabs(navIt->intersection.pathLength) < 1_um) {
-            navIt = protoNavSurfaces.erase(navIt);
-          }
-        }
-
         if (!protoNavSurfaces.empty()) {
           // did we find any surfaces?
-          // we are not, go on
-          state.navigation.navSurfaces = std::move(protoNavSurfaces);
 
-          state.navigation.navSurfaceIter =
-              state.navigation.navSurfaces.begin();
-          state.navigation.navLayers = {};
-          state.navigation.navLayerIter = state.navigation.navLayers.end();
-          // The stepper updates the step size ( single / multi component)
-          stepper.updateStepSize(state.stepping,
-                                 *state.navigation.navSurfaceIter, true);
-          ACTS_VERBOSE(
-              volInfo(state)
-              << "Navigation stepSize updated to "
-              << stepper.outputStepSize(state.stepping) << "Position : "
-              << state.navigation.navSurfaceIter->intersection.position
-              << "pathLength : "
-              << state.navigation.navSurfaceIter->intersection.pathLength);
-          return true;
+          // Check: are we on the first surface?
+          if (state.navigation.currentSurface == nullptr ||
+              protoNavSurfaces.front().intersection.pathLength > 1_um) {
+            // we are not, go on
+            state.navigation.navSurfaces = std::move(protoNavSurfaces);
+
+            state.navigation.navSurfaceIter =
+                state.navigation.navSurfaces.begin();
+            state.navigation.navLayers = {};
+            state.navigation.navLayerIter = state.navigation.navLayers.end();
+            // The stepper updates the step size ( single / multi component)
+            stepper.updateStepSize(state.stepping,
+                                   *state.navigation.navSurfaceIter, true);
+            ACTS_VERBOSE(
+                volInfo(state)
+                << "Navigation stepSize updated to "
+                << stepper.outputStepSize(state.stepping) << "Position : "
+                << state.navigation.navSurfaceIter->intersection.position
+                << "pathLength : "
+                << state.navigation.navSurfaceIter->intersection.pathLength);
+            return true;
+          }
         }
       }
 
