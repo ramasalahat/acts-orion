@@ -32,6 +32,18 @@ template <typename stepper_t>
 Acts::Intersection3D::Status updateSingleSurfaceStatus(
     const stepper_t& stepper, typename stepper_t::State& state,
     const Surface& surface, const BoundaryCheck& bcheck) {
+  std::cout << "updateSingleSurfaceStatus" << std::endl;
+  std::cout << "surface pos : " << surface.center(state.geoContext)
+            << std::endl;
+  std::cout << "step pos : " << stepper.position(state) << std::endl;
+  std::cout << "step dir : " << state.navDir * stepper.direction(state)
+            << std::endl;
+  std::cout << "pos on surface : "
+            << surface.isOnSurface(state.geoContext, stepper.position(state),
+                                   state.navDir * stepper.direction(state),
+                                   bcheck)
+            << std::endl;
+
   auto sIntersection =
       surface.intersect(state.geoContext, stepper.position(state),
                         state.navDir * stepper.direction(state), bcheck);
@@ -68,6 +80,7 @@ Acts::Intersection3D::Status updateSingleSurfaceStatus(
       return Intersection3D::Status::reachable;
     }
   }
+  std::cout << "unreach" << std::endl;
   return Intersection3D::Status::unreachable;
 }
 
