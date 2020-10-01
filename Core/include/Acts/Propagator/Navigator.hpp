@@ -727,7 +727,13 @@ class Navigator {
                 << stepper.outputStepSize(state.stepping) << "Position : "
                 << state.navigation.navSurfaceIter->intersection.position
                 << "pathLength : "
-                << state.navigation.navSurfaceIter->intersection.pathLength);
+                << state.navigation.navSurfaceIter->intersection.pathLength
+                << "is on surface : "
+                << state.navigation.navSurfaceIter->object->isOnSurface(
+                       state.geoContext, stepper.position(state.stepping),
+                       state.stepping.navDir *
+                           stepper.direction(state.stepping),
+                       true));
             return true;
           }
         }
