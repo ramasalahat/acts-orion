@@ -730,7 +730,8 @@ class Navigator {
                 << state.navigation.navSurfaceIter->intersection.pathLength
                 << "is on surface : "
                 << state.navigation.navSurfaceIter->object->isOnSurface(
-                       state.geoContext, stepper.position(state.stepping),
+                       state.geoContext,
+                       state.navigation.navSurfaceIter->intersection.position,
                        state.stepping.navDir *
                            stepper.direction(state.stepping),
                        true));
