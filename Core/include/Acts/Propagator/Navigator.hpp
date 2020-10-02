@@ -728,6 +728,8 @@ class Navigator {
                 << state.navigation.navSurfaceIter->intersection.position
                 << "pathLength : "
                 << state.navigation.navSurfaceIter->intersection.pathLength
+                << "surface id : "
+                << state.navigation.navSurfaceIter->object->geometryId()
                 << "is on surface : "
                 << state.navigation.navSurfaceIter->object->isOnSurface(
                        state.geoContext,
