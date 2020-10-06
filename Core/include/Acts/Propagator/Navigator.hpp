@@ -627,8 +627,7 @@ class Navigator {
       state.navigation.navSurfaces.clear();
       state.navigation.navSurfaceIter = state.navigation.navSurfaces.end();
 
-      if (state.navigation.navLayerIter !=
-          state.navigation.navLayerIter.end()) {
+      if (state.navigation.navLayerIter != state.navigation.navLayers.end()) {
         ACTS_VERBOSE(volInfo(state)
                      << "Last surface on layer reached, switching layer.");
         // now switch to the next layer
