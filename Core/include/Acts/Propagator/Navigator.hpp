@@ -313,6 +313,7 @@ class Navigator {
         state.navigation.navSurfaceIter = state.navigation.navSurfaces.end();
         state.navigation.navLayers.clear();
         state.navigation.navLayerIter = state.navigation.navLayers.end();
+        state.navigation.noVolumeHierarchyMatched = false;
         // Update volume information
         // get the attached volume information
         auto boundary = state.navigation.navBoundaryIter->object;
