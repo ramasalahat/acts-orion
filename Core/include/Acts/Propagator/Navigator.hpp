@@ -206,6 +206,9 @@ class Navigator {
     bool startLayerResolved = false;
     /// Indicator if the target is reached
     bool targetReached = false;
+    /// Indicator that no VolumeHierarchy surface was matched
+    /// skip to next volume
+    bool noVolumeHierarchyMatched = false;
     /// Navigation state : a break has been detected
     bool navigationBreak = false;
     // The navigation stage (@todo: integrate break, target)
@@ -619,13 +622,24 @@ class Navigator {
 
     // Reached the end of the surface iteration
     if (state.navigation.navSurfaceIter == state.navigation.navSurfaces.end()) {
-      ACTS_VERBOSE(volInfo(state)
-                   << "Last surface on layer reached, switching layer.");
       // first clear the surface cache
       state.navigation.navSurfaces.clear();
       state.navigation.navSurfaceIter = state.navigation.navSurfaces.end();
-      // now switch to the next layer
-      ++state.navigation.navLayerIter;
+
+      if (state.navigation.navLayerIter !=
+          state.navigation.navLayerIter.end()) {
+        ACTS_VERBOSE(volInfo(state)
+                     << "Last surface on layer reached, switching layer.");
+        // now switch to the next layer
+        ++state.navigation.navLayerIter;
+      } else {
+        ACTS_VERBOSE(volInfo(state)
+                     << "Last surface on layer reached, and no layer.");
+        // first clear the surface cache
+        state.navigation.noVolumeHierarchyMatched = true;
+        state.navigation.navigationBreak =
+            (state.navigation.currentVolume == state.navigation.targetVolume);
+      }
     }
     // Do not return to the propagator
     return false;
@@ -653,7 +667,8 @@ class Navigator {
   bool targetLayers(propagator_state_t& state, const stepper_t& stepper) const {
     const auto& logger = state.options.logger;
 
-    if (state.navigation.navigationBreak) {
+    if (state.navigation.navigationBreak ||
+        state.navigation.noVolumeHierarchyMatched) {
       return false;
     }
 
@@ -709,9 +724,7 @@ class Navigator {
           // did we find any surfaces?
 
           // Check: are we on the first surface?
-          if ((state.navigation.currentSurface == nullptr &&
-               state.navigation.navLayerIter !=
-                   state.navigation.navLayers.end()) ||
+          if ((state.navigation.currentSurface == nullptr) ||
               protoNavSurfaces.front().intersection.pathLength > 1_um) {
             // we are not, go on
             state.navigation.navSurfaces = std::move(protoNavSurfaces);
