@@ -194,7 +194,6 @@ def runCKFTracks(
                 collisionRegionMax=250 * u.mm,
                 zMin=gridConfig.zMin,
                 zMax=gridConfig.zMax,
-                maxSeedsPerSpM=seedFilterConfig.maxSeedsPerSpM,
                 cotThetaMax=gridConfig.cotThetaMax,
                 sigmaScattering=50,
                 radLengthPerSeed=0.1,
