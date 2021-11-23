@@ -1,0 +1,4 @@
+identifier	time_total_s	time_perevent_s
+Algorithm:PropagationAlgorithm	60.38	0.06038
+Writer:RootMaterialTrackWriter	257.7	0.2577
+Writer:RootMaterialTrackWriter:endRun	0.2084	0.0002084

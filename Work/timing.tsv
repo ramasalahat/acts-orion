@@ -1,0 +1,10 @@
+identifier	time_total_s	time_perevent_s
+Reader:CsvParticleReader	869.8	0.8698
+Reader:CsvSimHitReader	3950	3.95
+Algorithm:DigitizationAlgorithm	376.6	0.3766
+Algorithm:TruthSeedSelector	14.01	0.01401
+Algorithm:SpacePointMaker	6.131	0.006131
+Algorithm:SeedingAlgorithm	66.31	0.06631
+Algorithm:TrackParamsEstimationAlgorithm	19.75	0.01975
+Writer:SeedingPerformanceWriter	1.345	0.001345
+Writer:SeedingPerformanceWriter:endRun	0.002453	2.453e-06

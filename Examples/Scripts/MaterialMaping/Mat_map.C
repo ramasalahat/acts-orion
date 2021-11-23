@@ -145,7 +145,7 @@ void Mat_map(std::string Val = "", std::string geantino = "", std::string name =
 
     // 2D map for Validation input
     TCanvas *VM = new TCanvas("VM","Validation Map") ;
-    Val_file->Draw("mat_y:mat_z","fabs(mat_x)<1");
+    Val_file->Draw("sqrt(mat_x*mat_x+mat_y*mat_y):mat_z","");
 
     eta_0->Draw("Same");
     eta_1p->Draw("Same");
@@ -206,7 +206,7 @@ void Mat_map(std::string Val = "", std::string geantino = "", std::string name =
 
     // 2D map for Geantino input
     TCanvas *GM = new TCanvas("GM","Geantino Map") ;
-    geantino_file->Draw("mat_y:mat_z","fabs(mat_x)<1");
+    geantino_file->Draw("sqrt(mat_x*mat_x+mat_y*mat_y):mat_z","");
 
     eta_0->Draw("Same");
     eta_1p->Draw("Same");

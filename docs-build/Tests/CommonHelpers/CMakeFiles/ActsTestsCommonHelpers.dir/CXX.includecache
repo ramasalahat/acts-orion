@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Tests/CommonHelpers/Acts/Tests/CommonHelpers/DataDirectory.hpp
+string
+-
+string_view
+-
+
+/Users/allaire/Desktop/acts/Tests/CommonHelpers/Acts/Tests/CommonHelpers/DataDirectory.cpp
+Acts/Tests/CommonHelpers/DataDirectory.hpp
+/Users/allaire/Desktop/acts/Tests/CommonHelpers/Acts/Tests/CommonHelpers/Acts/Tests/CommonHelpers/DataDirectory.hpp
+filesystem
+-
+
