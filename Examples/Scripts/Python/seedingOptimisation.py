@@ -26,7 +26,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
     # Simulation
     simAlg = acts.examples.FatrasSimulation(
         level=acts.logging.INFO,
-        inputParticles=evGen.config.outputParticles,
+        inputParticles="particles_input",
         # inputParticles=evGen.config.particleCollection,
         outputParticlesInitial="particles_initial",
         outputParticlesFinal="particles_final",
