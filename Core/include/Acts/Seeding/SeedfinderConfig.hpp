@@ -30,6 +30,27 @@ struct SeedConfirmationRange {
 template <typename T>
 class SeedFilter;
 
+// template <typename SpacePoint>
+// struct RegionalParameters {
+
+//   // Seed Cuts
+//   // lower cutoff for seeds
+//   float minPt = 400. * Acts::UnitConstants::MeV;
+//   // cot of maximum theta angle
+//   // equivalent to 2.7 eta (pseudorapidity)
+//   float cotThetaMax = 7.40627;
+//   // minimum distance in r between two measurements within one seed
+//   float deltaRMin = 5 * Acts::UnitConstants::mm;
+//   // maximum distance in r between two measurements within one seed
+//   float deltaRMax = 270 * Acts::UnitConstants::mm;
+//   // impact parameter
+//   float impactMax = 20. * Acts::UnitConstants::mm;
+//   // how many sigmas of scattering angle should be considered?
+//   float sigmaScattering = 5;
+//   // Upper pt limit for scattering calculation
+//   float maxPtScattering = 10 * Acts::UnitConstants::GeV;
+//   }
+
 template <typename SpacePoint>
 struct SeedfinderConfig {
   std::shared_ptr<Acts::SeedFilter<SpacePoint>> seedFilter;
@@ -89,14 +110,10 @@ struct SeedfinderConfig {
 
   // impact parameter
   float impactMax = 20. * Acts::UnitConstants::mm;
-
   // how many sigmas of scattering angle should be considered?
   float sigmaScattering = 5;
   // Upper pt limit for scattering calculation
   float maxPtScattering = 10 * Acts::UnitConstants::GeV;
-
-  // for how many seeds can one SpacePoint be the middle SpacePoint?
-  unsigned int maxSeedsPerSpM = 5;
 
   // Geometry Settings
   // Detector ROI
@@ -112,6 +129,11 @@ struct SeedfinderConfig {
   // WARNING: if rMin is smaller than impactMax, the bin size will be 2*pi,
   // which will make seeding very slow!
   float rMin = 33 * Acts::UnitConstants::mm;
+
+  // Number of bins in R for the binned values
+  int binsR = 10;
+  // Number of bins in Z for the binned values
+  int binsZ = 10;
 
   float bFieldInZ = 2.08 * Acts::UnitConstants::T;
   // location of beam in x,y plane.
@@ -180,6 +202,11 @@ struct SeedfinderConfig {
     config.rAlign /= 1_mm;
 
     return config;
+  }
+
+  int regionOfInterest(float Z, float R) const {
+    return this->binZ * std::floor((Z - this->zMin) / this->binSizeZ) +
+           std::floor((R - this->rMin) / this->binSizeR);
   }
 };
 

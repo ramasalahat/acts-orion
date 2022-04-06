@@ -42,7 +42,9 @@ def addPythia8(
     beam1=acts.PdgParticle.eProton,
     cmsEnergy=14 * acts.UnitConstants.TeV,
     vertexStddev: acts.Vector4 = acts.Vector4(0, 0, 0, 0),
-    vertexMean: acts.Vector4 = acts.Vector4(0, 0, 0, 0),
+    vertexMean: acts.Vector4=acts.Vector4(0, 0, 0, 0),
+    hardProcess = ["HardQCD:all = on"],
+    softProcess = ["SoftQCD:all = on"],
 ):
     """This function steers the particle generation using Pythia8
 

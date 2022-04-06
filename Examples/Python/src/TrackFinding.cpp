@@ -80,7 +80,6 @@ void addTrackFinding(Context& ctx) {
     ACTS_PYTHON_MEMBER(impactMax);
     ACTS_PYTHON_MEMBER(sigmaScattering);
     ACTS_PYTHON_MEMBER(maxPtScattering);
-    ACTS_PYTHON_MEMBER(maxSeedsPerSpM);
     ACTS_PYTHON_MEMBER(collisionRegionMin);
     ACTS_PYTHON_MEMBER(collisionRegionMax);
     ACTS_PYTHON_MEMBER(phiMin);

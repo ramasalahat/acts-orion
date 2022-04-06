@@ -192,8 +192,6 @@ int runRecCKFTracks(int argc, char* argv[],
       seedingCfg.seedFinderConfig.zMax = seedingCfg.gridConfig.zMax;
 
       seedingCfg.seedFilterConfig.maxSeedsPerSpM = 1;
-      seedingCfg.seedFinderConfig.maxSeedsPerSpM =
-          seedingCfg.seedFilterConfig.maxSeedsPerSpM;
 
       seedingCfg.gridConfig.cotThetaMax = 7.40627;  // 2.7 eta
       seedingCfg.seedFinderConfig.cotThetaMax =

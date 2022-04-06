@@ -159,7 +159,11 @@ On top of those plots :
 
 .. code-block:: console
 
+<<<<<<< HEAD
   root -l -b ../Examples/Scripts/MaterialMapping/Mat_map_detector_plot_ratio.C'("propagation-material.root","material-maps_tracks.root",{X,Y,Z},100000,"Det_ratio","Det_Acts","Det_G4")'
+=======
+  root -l -b ../Examples/Scripts/MaterialMaping/Mat_map_detector_plot_ratio.C'("propagation-material.root","material-maps_tracks.root",{X,Y,Z},100000,"Det_ratio","Det_Acts","Det_G4")'
+>>>>>>> be5e6d3ca04a4288bc2bb3196bb6b0437a43b801
   .q
 
 Can be use with X,Y,Z is a list of volumes, this will plot the material ratio between the map and the Geantino scan for the given volumes.

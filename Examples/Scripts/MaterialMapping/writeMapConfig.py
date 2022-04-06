@@ -66,8 +66,7 @@ with open(inFileName, "r") as json_file:
             vconfig = []
             lastVol = entry["volume"]
             typeLayer = []
-            createdApproach1 = False
-            createdApproach2 = False
+            createdApproach = []
             typeSensitive = {}
 
         if "type" not in entry["value"]["bounds"]:
@@ -90,13 +89,8 @@ with open(inFileName, "r") as json_file:
 
         if "approach" in entry:
             if "sensitive" not in entry:
-                if entry["approach"] == 1 and createdApproach1 == False:
-                    createdApproach1 = True
-                    surface = getSurfaceMateral(entry)
-                    vconfig.append(surface)
-                    continue
-                if entry["approach"] == 2 and createdApproach2 == False:
-                    createdApproach2 = True
+                if entry["approach"] not in createdApproach:
+                    createdApproach.append(entry["approach"])
                     surface = getSurfaceMateral(entry)
                     vconfig.append(surface)
                     continue
