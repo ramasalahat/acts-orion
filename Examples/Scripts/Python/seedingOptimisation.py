@@ -16,7 +16,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
     if not os.path.exists(csv_dir):
         os.mkdir(csv_dir)
 
-# Sequencer
+    # Sequencer
     s = acts.examples.Sequencer(
         events=1000, numThreads=-1, logLevel=acts.logging.INFO
     )
@@ -192,6 +192,66 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
         avgDuplicate,
     )
 
+def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, compatSeedWeight, impactWeightFactor):
+    print("evaluate")
+
+    if deltaRMax < deltaRMin:
+        deltaRMin, deltaRMax = deltaRMax, deltaRMin
+
+    gridConfig = acts.SpacePointGridConfig(
+        bFieldInZ=1.99724 * u.T,
+        minPt=minPt * u.MeV,
+        rMax=200 * u.mm,
+        zMax=2000 * u.mm,
+        zMin=-2000 * u.mm,
+        deltaRMax=deltaRMax * u.mm,
+        # cotThetaMax=7.40627,  # 2.7 eta
+        cotThetaMax=27.29,  # 4 eta
+    )
+
+    seedFilterConfig = acts.SeedFilterConfig(
+        maxSeedsPerSpM=round(maxSeedsPerSpM), deltaRMin=deltaRMin * u.mm, compatSeedWeight=compatSeedWeight, impactWeightFactor=impactWeightFactor
+    )
+    seedFinderConfig = acts.SeedfinderConfig(
+        rMax=gridConfig.rMax,
+        deltaRMin=seedFilterConfig.deltaRMin,
+        deltaRMax=gridConfig.deltaRMax,
+        collisionRegionMin=-250 * u.mm,
+        collisionRegionMax=250 * u.mm,
+        zMin=gridConfig.zMin,
+        zMax=gridConfig.zMax,
+        cotThetaMax=gridConfig.cotThetaMax,
+        sigmaScattering=5,
+        radLengthPerSeed=radLengthPerSeed,
+        minPt=gridConfig.minPt,
+        bFieldInZ=gridConfig.bFieldInZ,
+        beamPos=acts.Vector2(0 * u.mm, 0 * u.mm),
+        impactMax=3*u.mm,
+    )
+
+    (
+        nTotalSeeds,
+        nTotalMatchedSeeds,
+        nTotalParticles,
+        nTotalMatchedParticles,
+        nTotalDuplicatedParticles,
+        efficiency,
+        fakeRate,
+        duplicateRate,
+        avgDuplicate,
+    ) = runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig)
+
+    K = 1000
+    effScore = efficiency - (100 * fakeRate + avgDuplicate) / K
+    print("efficiency : ", efficiency, "fakeRate : ", fakeRate, "duplicateRate : ",duplicateRate, "effScore : ",effScore)
+
+    objective = 1 - effScore
+
+    return [
+        {"name": "score", "type": "objective", "value": objective},
+    ]
+
+
 
 class Attribute:
     def __init__(self, _type, min, max):
@@ -222,7 +282,9 @@ if "__main__" == __name__:
 
     storage = {
         "database": {
-            "type": "ephemeraldb",
+            "type": "mongodb",
+            "name": 'orion_test',
+            "host": "mongodb+srv://rama:1234@cluster0.cnwwb.mongodb.net/"
         },
     }
 
@@ -242,66 +304,6 @@ if "__main__" == __name__:
         storage=storage,
         # algorithms={"tpe": {"n_initial_points": 5}},
     )
-
-    def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, compatSeedWeight, impactWeightFactor):
-        print("evaluate")
-
-        if deltaRMax < deltaRMin:
-            deltaRMin, deltaRMax = deltaRMax, deltaRMin
-
-        gridConfig = acts.SpacePointGridConfig(
-            bFieldInZ=1.99724 * u.T,
-            minPt=minPt * u.MeV,
-            rMax=200 * u.mm,
-            zMax=2000 * u.mm,
-            zMin=-2000 * u.mm,
-            deltaRMax=deltaRMax * u.mm,
-            # cotThetaMax=7.40627,  # 2.7 eta
-            cotThetaMax=27.29,  # 4 eta
-        )
-
-        seedFilterConfig = acts.SeedFilterConfig(
-            maxSeedsPerSpM=round(maxSeedsPerSpM), deltaRMin=deltaRMin * u.mm, compatSeedWeight=compatSeedWeight, impactWeightFactor=impactWeightFactor
-        )
-        seedFinderConfig = acts.SeedfinderConfig(
-            rMax=gridConfig.rMax,
-            deltaRMin=seedFilterConfig.deltaRMin,
-            deltaRMax=gridConfig.deltaRMax,
-            collisionRegionMin=-250 * u.mm,
-            collisionRegionMax=250 * u.mm,
-            zMin=gridConfig.zMin,
-            zMax=gridConfig.zMax,
-            cotThetaMax=gridConfig.cotThetaMax,
-            sigmaScattering=5,
-            radLengthPerSeed=radLengthPerSeed,
-            minPt=gridConfig.minPt,
-            bFieldInZ=gridConfig.bFieldInZ,
-            beamPos=acts.Vector2(0 * u.mm, 0 * u.mm),
-            impactMax=3*u.mm,
-        )
-
-        (
-            nTotalSeeds,
-            nTotalMatchedSeeds,
-            nTotalParticles,
-            nTotalMatchedParticles,
-            nTotalDuplicatedParticles,
-            efficiency,
-            fakeRate,
-            duplicateRate,
-            avgDuplicate,
-        ) = runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig)
-
-        K = 1000
-        effScore = efficiency - (100 * fakeRate + avgDuplicate) / K
-        print("efficiency : ", efficiency, "fakeRate : ", fakeRate, "duplicateRate : ",duplicateRate, "effScore : ",effScore)
-
-        objective = 1 - effScore
-
-        return [
-            {"name": "score", "type": "objective", "value": objective},
-        ]
-
 
     print("begin workon")
     experiment.workon(evaluate, max_trials=50)
