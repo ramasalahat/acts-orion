@@ -269,6 +269,9 @@ if "__main__" == __name__:
     import os
     print("mongodbURI: " + os.environ['mongodbURI'])
 
+    if(not os.environ['mongodbURI']):
+        raise ValueError('mongodb URI not defined')
+
     detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
@@ -283,7 +286,7 @@ if "__main__" == __name__:
     runSimulation(trackingGeometry, field, rnd, outputDir)
 
     from orion.client import build_experiment
-
+    import os
     storage = {
         "database": {
             "type": "mongodb",
