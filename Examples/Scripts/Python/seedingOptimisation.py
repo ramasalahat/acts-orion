@@ -283,7 +283,7 @@ if "__main__" == __name__:
     runSimulation(trackingGeometry, field, rnd, outputDir)
 
     from orion.client import build_experiment
-
+    import os
     storage = {
         "database": {
             "type": "mongodb",
