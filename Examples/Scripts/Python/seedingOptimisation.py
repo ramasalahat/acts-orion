@@ -63,7 +63,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
     return()
 
 
-def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig):
+def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig, events=1000):
 
 
     partReader = acts.examples.CsvParticleReader(
@@ -135,8 +135,9 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
         magneticField=field,
     )
 
+# is this where I can choose the number of events? 
     s = acts.examples.Sequencer(
-        events=1000,
+        events=events,
         numThreads=-1,
         logLevel=acts.logging.INFO,
     )
@@ -192,7 +193,7 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
         avgDuplicate,
     )
 
-def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, compatSeedWeight, impactWeightFactor):
+def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, compatSeedWeight, impactWeightFactor, events=1000):
     print("evaluate")
 
     if deltaRMax < deltaRMin:
@@ -239,7 +240,7 @@ def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, comp
         fakeRate,
         duplicateRate,
         avgDuplicate,
-    ) = runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig)
+    ) = runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig, events)
 
     K = 1000
     effScore = efficiency - (100 * fakeRate + avgDuplicate) / K
@@ -265,6 +266,9 @@ limits = {"maxSeedsPerSpM": Attribute(int, 1, 10)}
 
 
 if "__main__" == __name__:
+    import os
+    print("mongodbURI: " + os.environ['mongodbURI'])
+
     detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
@@ -284,9 +288,10 @@ if "__main__" == __name__:
         "database": {
             "type": "mongodb",
             "name": 'orion_test',
-            "host": "mongodb+srv://rama:1234@cluster0.cnwwb.mongodb.net/"
+            "host": os.environ['mongodbURI']
         },
     }
+
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -296,13 +301,19 @@ if "__main__" == __name__:
         "radLengthPerSeed": "uniform(0.01, 0.1)",
         "compatSeedWeight": "uniform(100, 1000)",
         "impactWeightFactor": "uniform(0.5, 5)",
+        "events": "fidelity(low=1, high=1000, base=10)"
     }
 
     experiment = build_experiment(
         "random-exp",
         space=space,
         storage=storage,
-        # algorithms={"tpe": {"n_initial_points": 5}},
+        algorithms={
+            "asha":{
+                "num_rungs": 4,
+                "num_brackets": 1,
+            }
+        },
     )
 
     print("begin workon")
@@ -310,6 +321,10 @@ if "__main__" == __name__:
     print("workon done")
 
     experiment.plot.regret().show()
+    experiment.plot.parallel_coordinates().show()
+    experiment.plot.lpi().show()
+    experiment.plot.partial_dependencies().show()
+
 
     df = experiment.to_pandas()
 
