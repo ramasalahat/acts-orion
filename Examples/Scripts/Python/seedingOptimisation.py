@@ -304,16 +304,16 @@ if "__main__" == __name__:
         "radLengthPerSeed": "uniform(0.01, 0.1)",
         "compatSeedWeight": "uniform(100, 1000)",
         "impactWeightFactor": "uniform(0.5, 5)",
-        "events": "fidelity(low=1, high=1000, base=10)"
+        "events": "fidelity(low=10, high=1000, base=10)"
     }
 
     experiment = build_experiment(
-        "random-exp",
+        "first-asha-exp",
         space=space,
         storage=storage,
         algorithms={
             "asha":{
-                "num_rungs": 4,
+                "seed": 0,
                 "num_brackets": 1,
             }
         },
@@ -323,10 +323,17 @@ if "__main__" == __name__:
     experiment.workon(evaluate, max_trials=50)
     print("workon done")
 
-    experiment.plot.regret().show()
-    experiment.plot.parallel_coordinates().show()
-    experiment.plot.lpi().show()
-    experiment.plot.partial_dependencies().show()
+    regret = experiment.plot.regret()
+    regret.write_html("regret.html")
+
+    parallel_coordinates = experiment.plot.parallel_coordinates()
+    parallel_coordinates.write_html("parallel_coordinates.html")
+
+    lpi = experiment.plot.lpi()
+    lpi.write_html("lpi.html")
+
+    partial_dependencies= experiment.plot.partial_dependencies()
+    partial_dependencies.write_html("partial_dependencies.html")
 
 
     df = experiment.to_pandas()
