@@ -274,7 +274,6 @@ if "__main__" == __name__:
     # oddMaterialMap = oddDir / "data/odd-material-maps.json"
     # oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
     detector, trackingGeometry, decorators = getOpenDataDetector()
-
     # detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
