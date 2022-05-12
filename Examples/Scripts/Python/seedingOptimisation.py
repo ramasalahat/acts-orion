@@ -270,12 +270,10 @@ if "__main__" == __name__:
     if(not os.environ['mongodbURI']):
         raise ValueError('mongodb URI not defined')
 
-    oddDir = getOpenDataDetectorDirectory()
-    oddMaterialMap = oddDir / "data/odd-material-maps.root"
-    oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
-    detector, trackingGeometry, decorators = getOpenDataDetector(mdecorator=oddMaterialDeco)
-
-
+    # oddDir = getOpenDataDetectorDirectory()
+    # oddMaterialMap = oddDir / "data/odd-material-maps.json"
+    # oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
+    detector, trackingGeometry, decorators = getOpenDataDetector()
 
     # detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
