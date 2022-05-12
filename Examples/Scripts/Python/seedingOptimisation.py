@@ -7,7 +7,7 @@ import acts
 import acts.examples
 
 import pythia8
-
+from common import getOpenDataDetector, getOpenDataDetectorDirectory
 u = acts.UnitConstants
 
 def runSimulation(trackingGeometry, field, rnd, outputDir):
@@ -233,7 +233,7 @@ def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, comp
     (
         nTotalSeeds,
         nTotalMatchedSeeds,
-        nTotalParticles,
+        nTotalParticles, #
         nTotalMatchedParticles,
         nTotalDuplicatedParticles,
         efficiency,
@@ -267,12 +267,17 @@ limits = {"maxSeedsPerSpM": Attribute(int, 1, 10)}
 
 if "__main__" == __name__:
     import os
-    print("mongodbURI: " + os.environ['mongodbURI'])
-
     if(not os.environ['mongodbURI']):
         raise ValueError('mongodb URI not defined')
 
-    detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
+    oddDir = getOpenDataDetectorDirectory()
+    oddMaterialMap = oddDir / "data/odd-material-maps.root"
+    oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
+    detector, trackingGeometry, decorators = getOpenDataDetector(mdecorator=oddMaterialDeco)
+
+
+
+    # detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
 
