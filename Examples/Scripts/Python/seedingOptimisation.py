@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import os
+import argparse
 import dataclasses
 import functools
+import string
 
 import acts
 import acts.examples
@@ -266,10 +268,13 @@ limits = {"maxSeedsPerSpM": Attribute(int, 1, 10)}
 
 
 if "__main__" == __name__:
-    import os
+
     if(not os.environ['mongodbURI']):
         raise ValueError('mongodb URI not defined')
-
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--experimentName', nargs='?', const="exp", type=string)
+    args = parser.parse_args()
+    exp = args.experimentName
     # oddDir = getOpenDataDetectorDirectory()
     # oddMaterialMap = oddDir / "data/odd-material-maps.json"
     # oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
@@ -310,7 +315,7 @@ if "__main__" == __name__:
     }
 
     experiment = build_experiment(
-        "first-asha-exp",
+        exp,
         space=space,
         storage=storage,
         algorithms={
@@ -326,16 +331,16 @@ if "__main__" == __name__:
     print("workon done")
 
     regret = experiment.plot.regret()
-    regret.write_html("regret.html")
+    regret.write_html( exp + "_regret.html")
 
     parallel_coordinates = experiment.plot.parallel_coordinates()
-    parallel_coordinates.write_html("parallel_coordinates.html")
+    parallel_coordinates.write_html(exp + "_parallel_coordinates.html")
 
     lpi = experiment.plot.lpi()
-    lpi.write_html("lpi.html")
+    lpi.write_html(exp + "_lpi.html")
 
     partial_dependencies= experiment.plot.partial_dependencies()
-    partial_dependencies.write_html("partial_dependencies.html")
+    partial_dependencies.write_html(exp + "_partial_dependencies.html")
 
 
     df = experiment.to_pandas()
