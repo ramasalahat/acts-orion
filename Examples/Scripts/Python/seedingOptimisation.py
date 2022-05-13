@@ -276,9 +276,7 @@ if "__main__" == __name__:
     args = parser.parse_args()
     exp = args.experimentName
     
-    # oddDir = getOpenDataDetectorDirectory()
-    # oddMaterialMap = oddDir / "data/odd-material-maps.json"
-    # oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
+    oddMaterialDeco = acts.IMaterialDecorator.fromFile("odd-material-maps.json")
     detector, trackingGeometry, decorators = getOpenDataDetector()
     # detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
