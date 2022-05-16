@@ -12,7 +12,7 @@ import pythia8
 from common import getOpenDataDetector, getOpenDataDetectorDirectory
 u = acts.UnitConstants
 
-def runSimulation(trackingGeometry, field, rnd, outputDir):
+def runSimulation(trackingGeometry, field, rnd, outputDir, decorators):
 
     csv_dir = os.path.join(outputDir, "csv")
     if not os.path.exists(csv_dir):
@@ -27,21 +27,35 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
 
     pythia8.addPythia8(s, rnd, hardProcess = ["Top:qqbar2ttbar=on"])
 
+    for decorator in decorators:
+        s.addContextDecorator(decorator)
+    s.addAlgorithm(
+        acts.examples.ParticleSelector(
+            level=s.config.logLevel,
+            inputParticles="particles_input",
+            outputParticles="particles_selected",
+            removeNeutral=True,
+            absEtaMax=4,
+            rhoMax=4.0 * u.mm,
+            ptMin=500 * u.MeV,
+        )
+    )
+    
     # Simulation
-    simAlg = acts.examples.FatrasSimulation(
-        level=acts.logging.INFO,
-        inputParticles="particles_input",
-        # inputParticles=evGen.config.particleCollection,
-        outputParticlesInitial="particles_initial",
-        outputParticlesFinal="particles_final",
-        outputSimHits="simhits",
-        randomNumbers=rnd,
-        trackingGeometry=trackingGeometry,
-        magneticField=field,
-        generateHitsOnSensitive=True,
+    s.addAlgorithm(
+        acts.examples.FatrasSimulation(
+            level=acts.logging.INFO,
+            inputParticles="particles_selected",
+            outputParticlesInitial="particles_initial",
+            outputParticlesFinal="particles_final",
+            outputSimHits="simhits",
+            randomNumbers=rnd,
+            trackingGeometry=trackingGeometry,
+            magneticField=field,
+            generateHitsOnSensitive=True,
+        )
     )
 
-    s.addAlgorithm(simAlg)
     print("simulation is done")
 
     # Output
@@ -298,7 +312,7 @@ if "__main__" == __name__:
         os.mkdir(outputDir)
 
 
-    runSimulation(trackingGeometry, field, rnd, outputDir)
+    runSimulation(trackingGeometry, field, rnd, outputDir, decorators)
 
     from orion.client import build_experiment
     import os
