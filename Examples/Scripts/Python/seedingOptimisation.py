@@ -12,7 +12,31 @@ import pythia8
 from common import getOpenDataDetector, getOpenDataDetectorDirectory
 u = acts.UnitConstants
 
-def runSimulation(trackingGeometry, field, rnd, outputDir):
+from acts.examples import (
+    Sequencer,
+    WhiteBoard,
+    AlgorithmContext,
+    ProcessCode,
+    RootMaterialTrackReader,
+    RootMaterialTrackWriter,
+    MaterialMapping,
+    JsonMaterialWriter,
+    JsonFormat,
+)
+
+import acts
+from acts import (
+    Vector4,
+    UnitConstants as u,
+    SurfaceMaterialMapper,
+    VolumeMaterialMapper,
+    Navigator,
+    Propagator,
+    StraightLineStepper,
+    MaterialMapJsonConverter,
+)
+
+def runSimulation(trackingGeometry, field, rnd, outputDir,decorators, mapName="material-map", mapSurface=True, mapVolume=True, s=None):
 
     csv_dir = os.path.join(outputDir, "csv")
     if not os.path.exists(csv_dir):
@@ -24,6 +48,15 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
     )
 
     print("Sequencing is done")
+    for decorator in decorators:
+        s.addContextDecorator(decorator)
+
+    wb = WhiteBoard(acts.logging.INFO)
+
+    context = AlgorithmContext(0, 0, wb)
+
+    for decorator in decorators:
+        assert decorator.decorate(context) == ProcessCode.SUCCESS
 
     pythia8.addPythia8(s, rnd, hardProcess = ["Top:qqbar2ttbar=on"])
 
@@ -298,7 +331,7 @@ if "__main__" == __name__:
         os.mkdir(outputDir)
 
 
-    runSimulation(trackingGeometry, field, rnd, outputDir)
+    runSimulation(trackingGeometry, field, rnd, outputDir, decorators)
 
     from orion.client import build_experiment
     import os
