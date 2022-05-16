@@ -23,6 +23,8 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
         events=1000, numThreads=-1, logLevel=acts.logging.INFO
     )
 
+    print("Sequencing is done")
+
     pythia8.addPythia8(s, rnd, hardProcess = ["Top:qqbar2ttbar=on"])
 
     # Simulation
@@ -40,6 +42,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
     )
 
     s.addAlgorithm(simAlg)
+    print("simulation is done")
 
     # Output
     s.addWriter(
@@ -59,6 +62,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir):
             outputStem="hits",
         )
     )
+    print("writers are done")
 
     s.run()
 
@@ -282,7 +286,7 @@ if "__main__" == __name__:
 
     oddMaterialDeco = acts.IMaterialDecorator.fromFile("../Examples/Scripts/Python/odd-material-maps.root")
     
-    detector, trackingGeometry, decorators = getOpenDataDetector()
+    detector, trackingGeometry, decorators = getOpenDataDetector(oddMaterialDeco)
     # detector, trackingGeometry, _ = acts.examples.GenericDetector.create()
 
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
