@@ -310,7 +310,7 @@ if "__main__" == __name__:
         },
     }
 
-    eventsStrin = "fidelity(low=10, high={}, base=10)".format(args.topNumberOfEvents)
+    eventsString = "fidelity(low=10, high={}, base=10)".format(args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -320,7 +320,7 @@ if "__main__" == __name__:
         "radLengthPerSeed": "uniform(0.01, 0.1)",
         "compatSeedWeight": "uniform(100, 1000)",
         "impactWeightFactor": "uniform(0.5, 5)",
-        "events": "fidelity(low=10, high=1000)"
+        "events": eventsString
     }
 
     experiment = build_experiment(
