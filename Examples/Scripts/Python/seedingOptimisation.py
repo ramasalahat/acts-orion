@@ -273,9 +273,13 @@ if "__main__" == __name__:
         raise ValueError('mongodb URI not defined')
     parser = argparse.ArgumentParser()
     parser.add_argument('--experimentName', nargs='?', const="exp", type=str)
+    parser.add_argument('--numberOfTrials', nargs='?', const=50, type=int)
+    parser.add_argument('--topNumberOfEvents', nargs='?', const=1000, type=int)
+
+
     args = parser.parse_args()
     exp = args.experimentName
-    
+
     oddMaterialDeco = acts.IMaterialDecorator.fromFile("../Examples/Scripts/Python/odd-material-maps.root")
     
     detector, trackingGeometry, decorators = getOpenDataDetector()
@@ -302,6 +306,7 @@ if "__main__" == __name__:
         },
     }
 
+    eventsStrin = "fidelity(low=10, high={}, base=10)".format(args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -327,7 +332,7 @@ if "__main__" == __name__:
     )
 
     print("begin workon")
-    experiment.workon(evaluate, max_trials=50)
+    experiment.workon(evaluate, max_trials=args.numberOfTrials)
     print("workon done")
 
     regret = experiment.plot.regret()
