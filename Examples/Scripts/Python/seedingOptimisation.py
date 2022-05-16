@@ -263,10 +263,12 @@ def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, comp
     ) = runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterConfig, seedFinderConfig, events)
 
     K = 1000
-    effScore = efficiency - (100 * fakeRate + avgDuplicate) / K
+    effScore = (efficiency - (100 * fakeRate + avgDuplicate) )/ K
     print("efficiency : ", efficiency, "fakeRate : ", fakeRate, "duplicateRate : ",duplicateRate, "effScore : ",effScore)
 
     objective = 1 - effScore
+    if(not objective):
+        objective = 1
 
     return [
         {"name": "score", "type": "objective", "value": objective},
