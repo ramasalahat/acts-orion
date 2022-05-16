@@ -335,17 +335,20 @@ if "__main__" == __name__:
     experiment.workon(evaluate, max_trials=args.numberOfTrials)
     print("workon done")
 
+    exp = os.path.join(os.getcwd(), exp)
+    os.mkdir(exp)
+
     regret = experiment.plot.regret()
-    regret.write_html( exp + "_regret.html")
+    regret.write_html( exp + "/regret.html")
 
     parallel_coordinates = experiment.plot.parallel_coordinates()
-    parallel_coordinates.write_html(exp + "_parallel_coordinates.html")
+    parallel_coordinates.write_html(exp + "/parallel_coordinates.html")
 
     lpi = experiment.plot.lpi()
-    lpi.write_html(exp + "_lpi.html")
+    lpi.write_html(exp + "/lpi.html")
 
     partial_dependencies= experiment.plot.partial_dependencies()
-    partial_dependencies.write_html(exp + "_partial_dependencies.html")
+    partial_dependencies.write_html(exp + "/partial_dependencies.html")
 
 
     df = experiment.to_pandas()
