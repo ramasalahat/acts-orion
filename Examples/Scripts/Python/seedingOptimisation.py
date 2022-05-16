@@ -292,9 +292,9 @@ if "__main__" == __name__:
     if(not os.environ['mongodbURI']):
         raise ValueError('mongodb URI not defined')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--experimentName', nargs='?', const="exp", type=str)
-    parser.add_argument('--numberOfTrials', nargs='?', const=50, type=int)
-    parser.add_argument('--topNumberOfEvents', nargs='?', const=1000, type=int)
+    parser.add_argument('--experimentName', nargs='?', const=1, type=str, default="exp")
+    parser.add_argument('--numberOfTrials', nargs='?', const=1, type=int, default=50)
+    parser.add_argument('--topNumberOfEvents', nargs='?', const=1, type=int, default=1000)
 
 
     args = parser.parse_args()
