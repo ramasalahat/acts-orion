@@ -350,15 +350,15 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
         rnd=rnd,
     )
 
-    s = addFatras(
-        s,
-        trackingGeometry,
-        field,
-        outputDirCsv=outputDir / "csv",
-        outputDirRoot=outputDir,
-        rnd=rnd,
-        preselectParticles=False,
-    )
+    # s = addFatras(
+    #     s,
+    #     trackingGeometry,
+    #     field,
+    #     outputDirCsv=outputDir / "csv",
+    #     outputDirRoot=outputDir,
+    #     rnd=rnd,
+    #     preselectParticles=False,
+    # )
 
     srcdir = Path(__file__).resolve().parent.parent.parent.parent
     # Examples/Algorithms/Digitization/share/default-smearing-config-generic.json
