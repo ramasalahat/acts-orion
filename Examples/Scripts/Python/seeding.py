@@ -26,7 +26,7 @@ ParticleSmearingSigmas = namedtuple(
 SeedfinderConfigArg = namedtuple(
     "SeedfinderConfig",
     [
-        "maxSeedsPerSpM",
+        # "maxSeedsPerSpM",
         "cotThetaMax",
         "sigmaScattering",
         "radLengthPerSeed",
@@ -221,7 +221,7 @@ def addSeeding(
                     collisionRegionMax=seedfinderConfigArg.collisionRegion[1],
                     zMin=seedfinderConfigArg.z[0],
                     zMax=seedfinderConfigArg.z[1],
-                    maxSeedsPerSpM=seedfinderConfigArg.maxSeedsPerSpM,
+                    # maxSeedsPerSpM=seedfinderConfigArg.maxSeedsPerSpM,
                     cotThetaMax=seedfinderConfigArg.cotThetaMax,
                     sigmaScattering=seedfinderConfigArg.sigmaScattering,
                     radLengthPerSeed=seedfinderConfigArg.radLengthPerSeed,
@@ -384,7 +384,7 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
             deltaR=(1 * u.mm, 60 * u.mm),
             collisionRegion=(-250 * u.mm, 250 * u.mm),
             z=(-2000 * u.mm, 2000 * u.mm),
-            maxSeedsPerSpM=1,
+            # maxSeedsPerSpM=1,
             sigmaScattering=50,
             radLengthPerSeed=0.1,
             minPt=500 * u.MeV,
