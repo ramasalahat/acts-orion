@@ -361,12 +361,13 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
     )
 
     srcdir = Path(__file__).resolve().parent.parent.parent.parent
+    # Examples/Algorithms/Digitization/share/default-smearing-config-generic.json
     s = addDigitization(
         s,
         trackingGeometry,
         field,
         digiConfigFile=srcdir
-        / "Examples/Algorithms/Digitization/share/default-smearing-config-generic.json",
+        / "thirdparty/OpenDataDetector/config/odd-digi-smearing-config.json",
         rnd=rnd,
     )
 
