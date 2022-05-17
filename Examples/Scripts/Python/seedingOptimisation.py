@@ -181,6 +181,8 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
     s.addWriter(seedingPerformaces)
     s.run()
 
+    print("totalParticles = ", seedingPerformaces.totalParticles, ", totalMatchedParticles = ", seedingPerformaces.totalMatchedParticles, ", totalSeeds = ", seedingPerformaces.totalSeeds
+    , ", totalMatchedSeeds = ", seedingPerformaces.totalMatchedSeeds, ", totalDuplicatedParticles", seedingPerformaces.totalDuplicatedParticles)
     if seedingPerformaces.totalParticles != 0:
         efficiency = seedingPerformaces.totalMatchedParticles / seedingPerformaces.totalParticles
     else:
