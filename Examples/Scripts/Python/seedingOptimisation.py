@@ -132,10 +132,11 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
         outputSpacePoints="spacepoints",
         trackingGeometry=trackingGeometry,
         geometrySelection=acts.examples.readJsonGeometryList(
-            "../Examples/Algorithms/TrackFinding/share/geoSelection-genericDetector.json"
+            "../Examples/Algorithms/TrackFinding/share/geoSelection-openDataDetector.json"
         ),
     )
-
+    # "../Examples/Algorithms/TrackFinding/share/geoSelection-genericDetector.json"
+ 
     seedingAlg = acts.examples.SeedingAlgorithm(
         level=acts.logging.INFO,
         inputSpacePoints=[spAlg.config.outputSpacePoints],
