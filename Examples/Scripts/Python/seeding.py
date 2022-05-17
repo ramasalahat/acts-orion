@@ -240,7 +240,7 @@ def addSeeding(
             )
 
             seedFilterConfig = acts.SeedFilterConfig(
-                maxSeedsPerSpM=seedFinderConfig.maxSeedsPerSpM,
+                maxSeedsPerSpM=1,
                 deltaRMin=seedFinderConfig.deltaRMin,
             )
 
