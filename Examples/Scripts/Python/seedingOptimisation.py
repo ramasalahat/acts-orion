@@ -29,6 +29,7 @@ def runSimulation(trackingGeometry, field, rnd, outputDir, decorators):
 
     for decorator in decorators:
         s.addContextDecorator(decorator)
+        
     s.addAlgorithm(
         acts.examples.ParticleSelector(
             level=s.config.logLevel,
@@ -100,10 +101,11 @@ def runSeeding(trackingGeometry, field, rnd, outputDir,  gridConfig, seedFilterC
         outputSimHits="simhits",
     )
 
+    # "../Examples/Algorithms/Digitization/share/default-smearing-config-generic.json"
     # Digitization
     digiCfg = acts.examples.DigitizationConfig(
         acts.examples.readDigiConfigFromJson(
-            "../Examples/Algorithms/Digitization/share/default-smearing-config-generic.json"
+            "../thirdparty/OpenDataDetector/config/odd-digi-smearing-config.json"
         ),
         trackingGeometry=trackingGeometry,
         randomNumbers=rnd,
