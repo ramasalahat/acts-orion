@@ -393,7 +393,7 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
         ),
         acts.logging.VERBOSE,
         geoSelectionConfigFile=srcdir
-        / "Examples/Algorithms/TrackFinding/share/geoSelection-genericDetector.json",
+        / "Examples/Algorithms/TrackFinding/share/geoSelection-openDataDetector.json",
         inputParticles="particles_final",  # use this to reproduce the original root_file_hashes.txt - remove to fix
         outputDirRoot=outputDir,
     )
