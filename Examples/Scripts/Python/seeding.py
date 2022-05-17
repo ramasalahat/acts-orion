@@ -375,8 +375,8 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
         s,
         trackingGeometry,
         field,
-        # SeedingAlgorithm.TruthSmeared,
-        # SeedingAlgorithm.TruthEstimated,
+        SeedingAlgorithm.TruthSmeared,
+        SeedingAlgorithm.TruthEstimated,
         TruthSeedRanges(pt=(1.0 * u.GeV, None), eta=(-2.5, 2.5), nHits=(9, None)),
         ParticleSmearingSigmas(pRel=0.01),  # only used by SeedingAlgorithm.TruthSmeared
         SeedfinderConfigArg(
