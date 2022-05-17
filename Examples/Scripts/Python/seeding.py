@@ -26,7 +26,7 @@ ParticleSmearingSigmas = namedtuple(
 SeedfinderConfigArg = namedtuple(
     "SeedfinderConfig",
     [
-        # "maxSeedsPerSpM",
+        "maxSeedsPerSpM",
         "cotThetaMax",
         "sigmaScattering",
         "radLengthPerSeed",
