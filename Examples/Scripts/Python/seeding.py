@@ -26,7 +26,6 @@ ParticleSmearingSigmas = namedtuple(
 SeedfinderConfigArg = namedtuple(
     "SeedfinderConfig",
     [
-        "maxSeedsPerSpM",
         "cotThetaMax",
         "sigmaScattering",
         "radLengthPerSeed",
@@ -39,7 +38,7 @@ SeedfinderConfigArg = namedtuple(
         "z",  # (min,max)
         "beamPos",  # (x,y)
     ],
-    defaults=[None] * 7 + [(None, None)] * 5,
+    defaults=[None] * 6 + [(None, None)] * 5,
 )
 
 TrackParamsEstimationConfig = namedtuple(
