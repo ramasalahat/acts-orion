@@ -3,6 +3,7 @@ if "__main__" == __name__:
     from orion.client import get_experiment
     import plotly.express as px
     import os
+    
     # Specify the database where the experiments are stored. We use a local PickleDB here.
     storage = storage = {
             "database": {
