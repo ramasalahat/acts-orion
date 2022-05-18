@@ -15,7 +15,7 @@ if "__main__" == __name__:
 
     # Load the data for the specified experiment
     experiment = get_experiment("newScoring", storage=storage)
-    fig = experiment.plot.parallel_coordinates(colorscale="Turbo")
+    fig = experiment.plot.parallel_coordinates(colorscale="thermal")
     fig.write_html("colored.html")
-    
+
 
