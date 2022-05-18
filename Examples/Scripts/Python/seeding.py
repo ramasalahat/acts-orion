@@ -391,7 +391,7 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
             bFieldInZ=1.99724 * u.T,
             impactMax=3 * u.mm,
         ),
-        acts.logging.VERBOSE,
+        acts.logging.INFO,
         geoSelectionConfigFile=srcdir
         / "thirdparty/OpenDataDetector/config/odd-material-mapping-config.json",
         inputParticles="particles_final",  # use this to reproduce the original root_file_hashes.txt - remove to fix
