@@ -299,7 +299,7 @@ if "__main__" == __name__:
     parser = argparse.ArgumentParser()
     parser.add_argument('--experimentName', nargs='?', const=1, type=str, default="exp")
     parser.add_argument('--numberOfTrials', nargs='?', const=1, type=int, default=50)
-    parser.add_argument('--topNumberOfEvents', nargs='?', const=1, type=int, default=10000)
+    parser.add_argument('--topNumberOfEvents', nargs='?', const=1, type=int, default=1000)
 
 
     args = parser.parse_args()
@@ -331,7 +331,7 @@ if "__main__" == __name__:
         },
     }
 
-    eventsString = "fidelity(low=1000, high={}, base=10)".format(args.topNumberOfEvents)
+    eventsString = "fidelity(low=700, high={}, base=10)".format(args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -350,8 +350,7 @@ if "__main__" == __name__:
         storage=storage,
         algorithms={
             "asha":{
-                "seed": 0,
-                "num_rungs": 10
+                "seed": 0
             }
         },
     )
