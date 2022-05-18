@@ -334,7 +334,7 @@ def runSeeding(trackingGeometry, field, outputDir, s=None):
     from digitization import addDigitization
 
     s = s or acts.examples.Sequencer(
-        events=100, numThreads=-1, logLevel=acts.logging.VERBOSE
+        events=100, numThreads=-1, logLevel=acts.logging.INFO
     )
     rnd = acts.examples.RandomNumbers(seed=42)
     outputDir = Path(outputDir)
