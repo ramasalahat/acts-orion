@@ -15,10 +15,6 @@ if "__main__" == __name__:
 
     # Load the data for the specified experiment
     experiment = get_experiment("newScoring", storage=storage)
-    fig = experiment.plot.parallel_coordinates(colorscale="RdBu")
-    fig.write_html("colored1.html")
-
-    fig.update_traces(overwrite=True, color_continuous_scale="RdBu")
-    fig.write_html("colored2.html")
-
+    fig = experiment.plot.parallel_coordinates(colorscale="Turbo")
+    fig.write_html("colored.html")
 

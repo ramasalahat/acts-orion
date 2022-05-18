@@ -366,7 +366,7 @@ if "__main__" == __name__:
     regret = experiment.plot.regret()
     regret.write_html( exp + "/regret.html")
 
-    parallel_coordinates = experiment.plot.parallel_coordinates()
+    parallel_coordinates = experiment.plot.parallel_coordinates(colorscale="Turbo")
     parallel_coordinates.write_html(exp + "/parallel_coordinates.html")
 
     lpi = experiment.plot.lpi()
@@ -381,6 +381,3 @@ if "__main__" == __name__:
     best = df.iloc[df.objective.idxmin()]
     print(best)
     
-    parallel_coordinates = experiment.plot.parallel_coordinates(kwargs={"color_continuous_scale":'Bluered_r'},)
-    parallel_coordinates.write_html(exp + "/parallel_coordinates2.html")
-
