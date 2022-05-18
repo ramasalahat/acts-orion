@@ -17,4 +17,5 @@ if "__main__" == __name__:
     experiment = get_experiment("newScoring", storage=storage)
     fig = experiment.plot.parallel_coordinates(colorscale="Turbo")
     fig.write_html("colored.html")
+    
 
