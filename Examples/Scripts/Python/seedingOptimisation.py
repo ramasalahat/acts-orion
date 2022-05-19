@@ -353,7 +353,7 @@ if "__main__" == __name__:
     eventsString = "fidelity(low={}, high={}, base=10)".format(args.minNumberOfEvents, args.topNumberOfEvents)
 
     space = {
-        "maxSeedsPerSpM": "uniform(1, 10)",
+        "maxSeedsPerSpM": "uniform(1, 10, discrete=True)",
         "minPt": "uniform(100, 1000)",
         "deltaRMax": "uniform(10, 100)",
         "deltaRMin": "uniform(1, 10)",
