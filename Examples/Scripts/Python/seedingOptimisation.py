@@ -364,7 +364,7 @@ if "__main__" == __name__:
     }
 
     experiment = build_experiment(
-        exp,
+        exp+"_tpe",
         space=space,
         storage=storage,
         algorithms={"tpe": {"n_initial_points": 20}},
@@ -375,15 +375,15 @@ if "__main__" == __name__:
     experiment.workon(evaluate, max_trials=args.numberOfTrials)
     print("workon done")
 
-    exp = os.path.join(os.getcwd(), exp)
-    os.mkdir(exp)
+    path = os.path.join(os.getcwd(), exp)
+    os.mkdir(path)
 
-    plotExperiment(experiment, exp, "tpe")
+    plotExperiment(experiment, path, "tpe")
 
     ###############################################
 
     experiment = build_experiment(
-        exp,
+        exp+"_random",
         space=space,
         storage=storage,
     )
@@ -391,7 +391,21 @@ if "__main__" == __name__:
     print("begin workon")
     experiment.workon(evaluate, max_trials=args.numberOfTrials)
     print("workon done")
-    plotExperiment(experiment, exp, "random")
+    plotExperiment(experiment, path, "random")
+    ###############################################
+
+    experiment = build_experiment(
+        exp+"_EvolutionES",
+        space=space,
+        storage=storage,
+        algorithms={"EvolutionES": {}},
+
+    )
+
+    print("begin workon")
+    experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    print("workon done")
+    plotExperiment(experiment, path, "EvolutionES")
 
     
     
