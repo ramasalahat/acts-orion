@@ -300,6 +300,7 @@ if "__main__" == __name__:
     parser.add_argument('--experimentName', nargs='?', const=1, type=str, default="exp")
     parser.add_argument('--numberOfTrials', nargs='?', const=1, type=int, default=50)
     parser.add_argument('--topNumberOfEvents', nargs='?', const=1, type=int, default=1000)
+    parser.add_argument('--minNumberOfEvents', nargs='?', const=1, type=int, default=10)
 
 
     args = parser.parse_args()
@@ -331,7 +332,7 @@ if "__main__" == __name__:
         },
     }
 
-    eventsString = "fidelity(low=10, high={}, base=10)".format(args.topNumberOfEvents)
+    eventsString = "fidelity(low={}, high={}, base=10)".format(args.minNumberOfEvents, args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -348,12 +349,8 @@ if "__main__" == __name__:
         exp,
         space=space,
         storage=storage,
-        algorithms={
-            "asha":{
-                "seed": 0,
-                "num_brackets": 1,
-            }
-        },
+        algorithms={"tpe": {"n_initial_points": 20}},
+
     )
 
     print("begin workon")
