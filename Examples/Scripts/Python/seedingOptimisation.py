@@ -300,7 +300,7 @@ if "__main__" == __name__:
     parser.add_argument('--experimentName', nargs='?', const=1, type=str, default="exp")
     parser.add_argument('--numberOfTrials', nargs='?', const=1, type=int, default=50)
     parser.add_argument('--topNumberOfEvents', nargs='?', const=1, type=int, default=1000)
-    parser.add_argument('--minNumberOfEvents', nargs='?', const=1, type=int, default=10)
+    parser.add_argument('--minNumberOfEvents', nargs='?', const=1, type=int, default=1000)
 
 
     args = parser.parse_args()
@@ -348,9 +348,7 @@ if "__main__" == __name__:
     experiment = build_experiment(
         exp,
         space=space,
-        storage=storage,
-        algorithms={"tpe": {"n_initial_points": 20}},
-
+        storage=storage
     )
 
     print("begin workon")
