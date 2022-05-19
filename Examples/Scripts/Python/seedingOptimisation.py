@@ -331,7 +331,7 @@ if "__main__" == __name__:
         },
     }
 
-    eventsString = "fidelity(low=700, high={}, base=10)".format(args.topNumberOfEvents)
+    eventsString = "fidelity(low=200, high={}, base=10)".format(args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
