@@ -331,7 +331,7 @@ if "__main__" == __name__:
         },
     }
 
-    eventsString = "fidelity(low=200, high={}, base=10)".format(args.topNumberOfEvents)
+    eventsString = "fidelity(low=100, high={}, base=10)".format(args.topNumberOfEvents)
 
     space = {
         "maxSeedsPerSpM": "uniform(1, 10)",
@@ -350,7 +350,8 @@ if "__main__" == __name__:
         storage=storage,
         algorithms={
             "asha":{
-                "seed": 0
+                "seed": 0,
+                "num_brackets": 1,
             }
         },
     )
