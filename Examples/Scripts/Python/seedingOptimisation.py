@@ -291,7 +291,25 @@ class Attribute:
 
 limits = {"maxSeedsPerSpM": Attribute(int, 1, 10)}
 
+def plotExperiment(experiment, path, algoName):
+    regret = experiment.plot.regret()
+    regret.write_html( path + "/" + algoName +"_regret.html")
 
+    parallel_coordinates = experiment.plot.parallel_coordinates(colorscale="Plotly3")
+    parallel_coordinates.write_html(path + "/" + algoName +"_parallel_coordinates.html")
+
+    lpi = experiment.plot.lpi()
+    lpi.write_html(path + "/" + algoName +"_lpi.html")
+
+    partial_dependencies= experiment.plot.partial_dependencies()
+    partial_dependencies.write_html(path + "/" + algoName +"_partial_dependencies.html")
+    df = experiment.to_pandas()
+
+    best = df.iloc[df.objective.idxmin()]
+    print(algoName + " best pram: ")
+    print(best)
+
+    
 if "__main__" == __name__:
 
     if(not os.environ['mongodbURI']):
@@ -348,7 +366,9 @@ if "__main__" == __name__:
     experiment = build_experiment(
         exp,
         space=space,
-        storage=storage
+        storage=storage,
+        algorithms={"tpe": {"n_initial_points": 20}},
+
     )
 
     print("begin workon")
@@ -358,21 +378,20 @@ if "__main__" == __name__:
     exp = os.path.join(os.getcwd(), exp)
     os.mkdir(exp)
 
-    regret = experiment.plot.regret()
-    regret.write_html( exp + "/regret.html")
+    plotExperiment(experiment, exp, "tpe")
 
-    parallel_coordinates = experiment.plot.parallel_coordinates(colorscale="Plotly3")
-    parallel_coordinates.write_html(exp + "/parallel_coordinates.html")
+    ###############################################
 
-    lpi = experiment.plot.lpi()
-    lpi.write_html(exp + "/lpi.html")
+    experiment = build_experiment(
+        exp,
+        space=space,
+        storage=storage,
+    )
 
-    partial_dependencies= experiment.plot.partial_dependencies()
-    partial_dependencies.write_html(exp + "/partial_dependencies.html")
+    print("begin workon")
+    experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    print("workon done")
+    plotExperiment(experiment, exp, "random")
 
-
-    df = experiment.to_pandas()
-
-    best = df.iloc[df.objective.idxmin()]
-    print(best)
+    
     
