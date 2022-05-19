@@ -366,7 +366,7 @@ if "__main__" == __name__:
     regret = experiment.plot.regret()
     regret.write_html( exp + "/regret.html")
 
-    parallel_coordinates = experiment.plot.parallel_coordinates(colorscale="Turbo")
+    parallel_coordinates = experiment.plot.parallel_coordinates(colorscale="Plotly3")
     parallel_coordinates.write_html(exp + "/parallel_coordinates.html")
 
     lpi = experiment.plot.lpi()
