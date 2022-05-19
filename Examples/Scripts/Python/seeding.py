@@ -409,3 +409,6 @@ if "__main__" == __name__:
     field = acts.ConstantBField(acts.Vector3(0, 0, 2 * u.T))
 
     runSeeding(trackingGeometry, field, outputDir=Path.cwd()).run()
+    print("min delta r and max: ",1 * u.mm, 60 * u.mm)
+    print("maxSeedsPerSpM=1" )
+    print("minPt = ", 500 * u.MeV)

@@ -367,7 +367,7 @@ if "__main__" == __name__:
         exp+"_tpe",
         space=space,
         storage=storage,
-        algorithms={"tpe": {"n_initial_points": 20}},
+        algorithms={"tpe": {"n_initial_points": 20, "seed": 0}},
 
     )
 
@@ -394,18 +394,18 @@ if "__main__" == __name__:
     plotExperiment(experiment, path, "random")
     ###############################################
 
-    experiment = build_experiment(
-        exp+"_EvolutionES",
-        space=space,
-        storage=storage,
-        algorithms={"EvolutionES": {}},
+    # experiment = build_experiment(
+    #     exp+"_EvolutionES",
+    #     space=space,
+    #     storage=storage,
+    #     algorithms={"EvolutionES": {}},
 
-    )
+    # )
 
-    print("begin workon")
-    experiment.workon(evaluate, max_trials=args.numberOfTrials)
-    print("workon done")
-    plotExperiment(experiment, path, "EvolutionES")
+    # print("begin workon")
+    # experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    # print("workon done")
+    # plotExperiment(experiment, path, "EvolutionES")
     ###############################################
 
     space = {
@@ -423,7 +423,7 @@ if "__main__" == __name__:
         exp+"_tpe_different_space",
         space=space,
         storage=storage,
-        algorithms={"tpe": {"n_initial_points": 20}},
+        algorithms={"tpe": {"n_initial_points": 20, "seed": 0}},
 
     )
 
@@ -431,6 +431,22 @@ if "__main__" == __name__:
     experiment.workon(evaluate, max_trials=args.numberOfTrials)
     print("workon done")
     plotExperiment(experiment, path, "tpe_different_space")
+    ###############################################
+
+
+    experiment = build_experiment(
+        exp+"_tpe_different_space_",
+        space=space,
+        storage=storage,
+        algorithms={"tpe": {"n_initial_points": 20, "seed": 1}},
+
+    )
+
+    print("begin workon")
+    experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    print("workon done")
+    plotExperiment(experiment, path, "tpe_different_space_")
+    
 
     
     
