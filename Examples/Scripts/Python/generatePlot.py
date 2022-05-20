@@ -17,6 +17,9 @@ if "__main__" == __name__:
     experiment = get_experiment("experiment_random", storage=storage)
     fig = experiment.plot.parallel_coordinates(colorscale="Plotly3")
     fig.update_yaxes(range=[0.025, 0.161])
+    fig.update(layout_yaxis_range = [0.025, 0.161])
+    fig.update_layout(yaxis_range=[0.025, 0.161])
+
 
     fig.write_html("colored.html")
 
