@@ -300,15 +300,17 @@ def addSeeding(
                 )
             )
 
-            s.addWriter(
-                acts.examples.SeedingPerformanceWriter(
+            seedingPerformaces = acts.examples.SeedingPerformanceWriter(
                     level=customLogLevel(acts.logging.DEBUG),
                     inputProtoTracks=inputProtoTracks,
                     inputParticles=selectedParticles,
                     inputMeasurementParticlesMap=selAlg.config.inputMeasurementParticlesMap,
                     filePath=str(outputDirRoot / "performance_seeding_hists.root"),
                 )
+            s.addWriter(
+                seedingPerformaces
             )
+
 
             s.addWriter(
                 acts.examples.RootTrackParameterWriter(
@@ -323,6 +325,30 @@ def addSeeding(
                     treeName="estimatedparams",
                 )
             )
+
+            if seedingPerformaces.totalParticles != 0:
+                efficiency = seedingPerformaces.totalMatchedParticles / seedingPerformaces.totalParticles
+            else:
+                efficiency = 0
+                
+            if seedingPerformaces.totalSeeds != 0:
+                fakeRate = (seedingPerformaces.totalSeeds - seedingPerformaces.totalMatchedSeeds)  / seedingPerformaces.totalSeeds
+            else:
+                fakeRate = 1
+
+            if seedingPerformaces.totalMatchedParticles != 0:
+                duplicateRate = seedingPerformaces.totalDuplicatedParticles / seedingPerformaces.totalMatchedParticles
+            else:
+                duplicateRate = 1
+                
+            if seedingPerformaces.totalMatchedParticles != 0:
+                avgDuplicate = (seedingPerformaces.totalMatchedSeeds - seedingPerformaces.totalMatchedParticles)  / seedingPerformaces.totalMatchedParticles
+            else:
+                avgDuplicate = 0        
+
+            effScore = (efficiency - (( (100 * fakeRate) + avgDuplicate) / K ))
+            print("efficiency = ", efficiency, ", fakeRate = ", fakeRate,", duplicateRate = ", duplicateRate, ",avgDuplicate = ", avgDuplicate)
+            print("effScore = ", effScore)
 
     return s
 
