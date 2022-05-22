@@ -346,7 +346,7 @@ def addSeeding(
             else:
                 avgDuplicate = 0        
 
-            effScore = (efficiency - (( (100 * fakeRate) + avgDuplicate) / K ))
+            effScore = (efficiency - (( (100 * fakeRate) + avgDuplicate) / 1000 ))
             print("efficiency = ", efficiency, ", fakeRate = ", fakeRate,", duplicateRate = ", duplicateRate, ",avgDuplicate = ", avgDuplicate)
             print("effScore = ", effScore)
 
