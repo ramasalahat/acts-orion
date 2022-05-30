@@ -15,6 +15,12 @@ if "__main__" == __name__:
 
     # Load the data for the specified experiment
     experiment = get_experiment("experiment_random", storage=storage)
+
+    df = experiment.to_pandas()
+
+    best = df.iloc[df.objective.idxmin()]
+    print(best)
+
     fig = experiment.plot.parallel_coordinates(colorscale="Plotly3")
     fig.update_yaxes(range=[0.025, 0.161])
     fig.update(layout_yaxis_range = [0.025, 0.161])
