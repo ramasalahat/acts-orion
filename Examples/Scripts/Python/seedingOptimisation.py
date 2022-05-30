@@ -340,79 +340,25 @@ if "__main__" == __name__:
 
     runSimulation(trackingGeometry, field, rnd, outputDir, decorators)
 
-    from orion.client import build_experiment
-    import os
-    storage = {
-        "database": {
-            "type": "mongodb",
-            "name": 'orion_test',
-            "host": os.environ['mongodbURI']
-        },
-    }
+    x = evaluate(maxSeedsPerSpM=1, minPt=400, deltaRMax=270, deltaRMin=5, radLengthPerSeed=0.05, compatSeedWeight=200, impactWeightFactor=1, events=1000)
+    print(x)
+    # from orion.client import build_experiment
+    # import os
+    # storage = {
+    #     "database": {
+    #         "type": "mongodb",
+    #         "name": 'orion_test',
+    #         "host": os.environ['mongodbURI']
+    #     },
+    # }
 
-    eventsString = "fidelity(low={}, high={}, base=10)".format(args.minNumberOfEvents, args.topNumberOfEvents)
-
-    space = {
-        "maxSeedsPerSpM": "uniform(1, 10, discrete=True)",
-        "minPt": "uniform(100, 1000)",
-        "deltaRMax": "uniform(10, 100)",
-        "deltaRMin": "uniform(1, 10)",
-        "radLengthPerSeed": "uniform(0.01, 0.1)",
-        "compatSeedWeight": "uniform(100, 1000)",
-        "impactWeightFactor": "uniform(0.5, 5)",
-        "events": eventsString
-    }
-
-    experiment = build_experiment(
-        exp+"_tpe",
-        space=space,
-        storage=storage,
-        algorithms={"tpe": {"n_initial_points": 20, "seed": 0}},
-
-    )
-
-    print("begin workon")
-    experiment.workon(evaluate, max_trials=args.numberOfTrials)
-    print("workon done")
-
-    path = os.path.join(os.getcwd(), exp)
-    os.mkdir(path)
-
-    plotExperiment(experiment, path, "tpe")
-
-    ###############################################
-
-    experiment = build_experiment(
-        exp+"_random",
-        space=space,
-        storage=storage,
-    )
-
-    print("begin workon")
-    experiment.workon(evaluate, max_trials=args.numberOfTrials)
-    print("workon done")
-    plotExperiment(experiment, path, "random")
-    ###############################################
-
-    # experiment = build_experiment(
-    #     exp+"_EvolutionES",
-    #     space=space,
-    #     storage=storage,
-    #     algorithms={"EvolutionES": {}},
-
-    # )
-
-    # print("begin workon")
-    # experiment.workon(evaluate, max_trials=args.numberOfTrials)
-    # print("workon done")
-    # plotExperiment(experiment, path, "EvolutionES")
-    # ###############################################
+    # eventsString = "fidelity(low={}, high={}, base=10)".format(args.minNumberOfEvents, args.topNumberOfEvents)
 
     # space = {
     #     "maxSeedsPerSpM": "uniform(1, 10, discrete=True)",
-    #     "minPt": "uniform(100, 1500)",
-    #     "deltaRMax": "uniform(15, 100)",
-    #     "deltaRMin": "uniform(1, 15)",
+    #     "minPt": "uniform(100, 1000)",
+    #     "deltaRMax": "uniform(10, 100)",
+    #     "deltaRMin": "uniform(1, 10)",
     #     "radLengthPerSeed": "uniform(0.01, 0.1)",
     #     "compatSeedWeight": "uniform(100, 1000)",
     #     "impactWeightFactor": "uniform(0.5, 5)",
@@ -420,7 +366,7 @@ if "__main__" == __name__:
     # }
 
     # experiment = build_experiment(
-    #     exp+"_tpe_different_space",
+    #     exp+"_tpe",
     #     space=space,
     #     storage=storage,
     #     algorithms={"tpe": {"n_initial_points": 20, "seed": 0}},
@@ -430,22 +376,78 @@ if "__main__" == __name__:
     # print("begin workon")
     # experiment.workon(evaluate, max_trials=args.numberOfTrials)
     # print("workon done")
-    # plotExperiment(experiment, path, "tpe_different_space")
+
+    # path = os.path.join(os.getcwd(), exp)
+    # os.mkdir(path)
+
+    # plotExperiment(experiment, path, "tpe")
+
     # ###############################################
 
-
     # experiment = build_experiment(
-    #     exp+"_tpe_different_space_",
+    #     exp+"_random",
     #     space=space,
     #     storage=storage,
-    #     algorithms={"tpe": {"n_initial_points": 20, "seed": 1}},
-
     # )
 
     # print("begin workon")
     # experiment.workon(evaluate, max_trials=args.numberOfTrials)
     # print("workon done")
-    # plotExperiment(experiment, path, "tpe_different_space_")
+    # plotExperiment(experiment, path, "random")
+    # ###############################################
+
+    # # experiment = build_experiment(
+    # #     exp+"_EvolutionES",
+    # #     space=space,
+    # #     storage=storage,
+    # #     algorithms={"EvolutionES": {}},
+
+    # # )
+
+    # # print("begin workon")
+    # # experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    # # print("workon done")
+    # # plotExperiment(experiment, path, "EvolutionES")
+    # # ###############################################
+
+    # # space = {
+    # #     "maxSeedsPerSpM": "uniform(1, 10, discrete=True)",
+    # #     "minPt": "uniform(100, 1500)",
+    # #     "deltaRMax": "uniform(15, 100)",
+    # #     "deltaRMin": "uniform(1, 15)",
+    # #     "radLengthPerSeed": "uniform(0.01, 0.1)",
+    # #     "compatSeedWeight": "uniform(100, 1000)",
+    # #     "impactWeightFactor": "uniform(0.5, 5)",
+    # #     "events": eventsString
+    # # }
+
+    # # experiment = build_experiment(
+    # #     exp+"_tpe_different_space",
+    # #     space=space,
+    # #     storage=storage,
+    # #     algorithms={"tpe": {"n_initial_points": 20, "seed": 0}},
+
+    # # )
+
+    # # print("begin workon")
+    # # experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    # # print("workon done")
+    # # plotExperiment(experiment, path, "tpe_different_space")
+    # # ###############################################
+
+
+    # # experiment = build_experiment(
+    # #     exp+"_tpe_different_space_",
+    # #     space=space,
+    # #     storage=storage,
+    # #     algorithms={"tpe": {"n_initial_points": 20, "seed": 1}},
+
+    # # )
+
+    # # print("begin workon")
+    # # experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    # # print("workon done")
+    # # plotExperiment(experiment, path, "tpe_different_space_")
     
 
     
