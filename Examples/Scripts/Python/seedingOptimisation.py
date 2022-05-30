@@ -249,7 +249,7 @@ def evaluate(maxSeedsPerSpM, minPt, deltaRMax, deltaRMin, radLengthPerSeed, comp
         cotThetaMax=gridConfig.cotThetaMax,
         sigmaScattering=5,
         radLengthPerSeed=radLengthPerSeed,
-        minPt=gridConfig.minPt,
+        minPt=gridConfig.minPt * u.MeV,
         bFieldInZ=gridConfig.bFieldInZ,
         beamPos=acts.Vector2(0 * u.mm, 0 * u.mm),
         impactMax=3*u.mm,
