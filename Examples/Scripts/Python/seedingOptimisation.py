@@ -382,30 +382,30 @@ if "__main__" == __name__:
 
     ###############################################
 
+    experiment = build_experiment(
+        exp+"_random",
+        space=space,
+        storage=storage,
+    )
+
+    print("begin workon")
+    experiment.workon(evaluate, max_trials=args.numberOfTrials)
+    print("workon done")
+    plotExperiment(experiment, path, "random")
+    ###############################################
+
     # experiment = build_experiment(
-    #     exp+"_random",
+    #     exp+"_EvolutionES",
     #     space=space,
     #     storage=storage,
+    #     algorithms={"EvolutionES": {}},
+
     # )
 
     # print("begin workon")
     # experiment.workon(evaluate, max_trials=args.numberOfTrials)
     # print("workon done")
-    # plotExperiment(experiment, path, "random")
-    # ###############################################
-
-    # # experiment = build_experiment(
-    # #     exp+"_EvolutionES",
-    # #     space=space,
-    # #     storage=storage,
-    # #     algorithms={"EvolutionES": {}},
-
-    # # )
-
-    # # print("begin workon")
-    # # experiment.workon(evaluate, max_trials=args.numberOfTrials)
-    # # print("workon done")
-    # # plotExperiment(experiment, path, "EvolutionES")
+    # plotExperiment(experiment, path, "EvolutionES")
     # ###############################################
 
     # space = {
