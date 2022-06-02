@@ -340,7 +340,7 @@ if "__main__" == __name__:
 
     runSimulation(trackingGeometry, field, rnd, outputDir, decorators)
 
-    x = evaluate(maxSeedsPerSpM=1, minPt=400., deltaRMax=270, deltaRMin=5, radLengthPerSeed=0.05, compatSeedWeight=200, impactWeightFactor=1, events=1000)
+    x = evaluate(maxSeedsPerSpM=1, minPt=500., deltaRMax=60, deltaRMin=1, radLengthPerSeed=0.1, compatSeedWeight=200, impactWeightFactor=1, events=1000)
     print(x)
     # from orion.client import build_experiment
     # import os
